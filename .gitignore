@@ -5,3 +5,5 @@ log
 
 
 *.patch
+.idea
+*.md
