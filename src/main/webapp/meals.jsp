@@ -14,14 +14,19 @@
     <title>Meals list</title>
 </head>
 <body>
-<table border="1" width="100%" cellpadding="5">
+<table border="1" cellpadding="5">
     <tr>
         <th>Date</th>
         <th>Description</th>
         <th>Calories</th>
     </tr>
     <c:forEach items="${list}" var="meal">
-        <tr>
+        <tr style="color: darkgreen">
+
+        <c:if test="${meal.exceed}">
+            <tr style="color: red">
+        </c:if>
+
         <th>${f:matches(meal.dateTime, 'dd.MM.yyyy HH:mm')}</th>
         <th>${meal.description}</th>
         <th>${meal.calories}</th>
