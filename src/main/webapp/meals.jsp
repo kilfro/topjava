@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://example.com/functions" %>
 
 <html>
 <head>
@@ -21,7 +22,7 @@
     </tr>
     <c:forEach items="${list}" var="meal">
         <tr>
-        <th>${meal.dateTime}</th>
+        <th>${f:matches(meal.dateTime, 'dd.MM.yyyy HH:mm')}</th>
         <th>${meal.description}</th>
         <th>${meal.calories}</th>
         </tr>
