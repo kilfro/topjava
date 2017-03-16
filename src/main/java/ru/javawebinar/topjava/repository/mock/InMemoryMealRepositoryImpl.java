@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
@@ -31,18 +32,31 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public void delete(int id) {
-        repository.remove(id);
+    public boolean delete(int id, int userID) {
+        Meal deletedMeal = repository.get(id);
+        if (deletedMeal == null) {
+            return false;
+        }
+        if (deletedMeal.getUserID() == userID) {
+            repository.remove(id);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public Meal get(int id) {
-        return repository.get(id);
+    public Meal get(int id, int userID) {
+        return repository.values().stream()
+                .filter(meal -> meal.getId() == id & meal.getUserID() == userID)
+                .findFirst()
+                .get();
     }
 
     @Override
-    public Collection<Meal> getAll() {
-        return repository.values();
+    public Collection<Meal> getAll(int userID) {
+        return repository.values().stream()
+                .filter(meal -> meal.getUserID() == userID)
+                .sorted((o1, o2) -> o2.getDateTime().compareTo(o1.getDateTime()))
+                .collect(Collectors.toList());
     }
 }
-
