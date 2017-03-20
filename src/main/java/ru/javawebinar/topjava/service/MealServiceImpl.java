@@ -39,7 +39,7 @@ public class MealServiceImpl implements MealService {
 
     public Collection<Meal> getAll(int userID) {
         Collection<Meal> meals = repository.getAll(userID);
-        if (meals == null || meals.isEmpty()) {
+        if (meals == null || meals.isEmpty() || meals.size() == 0) {
             throw new NotFoundException("Not found!");
         }
         return meals;

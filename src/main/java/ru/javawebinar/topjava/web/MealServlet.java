@@ -2,11 +2,11 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl;
-import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.web.meal.MealRestController;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -25,12 +25,12 @@ import java.util.Objects;
 public class MealServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(MealServlet.class);
 
-    private MealRepository repository;
+    private ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+    private MealRestController controller = appCtx.getBean(MealRestController.class);
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        repository = new InMemoryMealRepositoryImpl();
     }
 
     @Override
@@ -45,7 +45,11 @@ public class MealServlet extends HttpServlet {
                 AuthorizedUser.id());
 
         LOG.info(meal.isNew() ? "Create {}" : "Update {}", meal);
-        repository.save(meal);
+        if (meal.isNew()) {
+            controller.create(meal);
+        } else {
+            controller.update(meal, AuthorizedUser.id());
+        }
         response.sendRedirect("meals");
     }
 
@@ -55,20 +59,19 @@ public class MealServlet extends HttpServlet {
 
         if (action == null) {
             LOG.info("getAll");
-            request.setAttribute("meals",
-                    MealsUtil.getWithExceeded(repository.getAll(AuthorizedUser.id()), MealsUtil.DEFAULT_CALORIES_PER_DAY));
+            request.setAttribute("meals", controller.getAll());
             request.getRequestDispatcher("/meals.jsp").forward(request, response);
 
         } else if ("delete".equals(action)) {
             int id = getId(request);
             LOG.info("Delete {}", id);
-            repository.delete(id, AuthorizedUser.id());
+            controller.delete(id);
             response.sendRedirect("meals");
 
         } else if ("create".equals(action) || "update".equals(action)) {
             final Meal meal = action.equals("create") ?
                     new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000, AuthorizedUser.id()) :
-                    repository.get(getId(request), AuthorizedUser.id());
+                    controller.get(getId(request));
             request.setAttribute("meal", meal);
             request.getRequestDispatcher("meal.jsp").forward(request, response);
         }
