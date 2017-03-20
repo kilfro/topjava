@@ -74,6 +74,8 @@ public class MealServlet extends HttpServlet {
                     controller.get(getId(request));
             request.setAttribute("meal", meal);
             request.getRequestDispatcher("meal.jsp").forward(request, response);
+        } else if ("filter".equals(action)) {
+
         }
     }
 

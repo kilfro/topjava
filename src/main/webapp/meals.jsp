@@ -19,6 +19,18 @@
 <section>
     <h2><a href="index.html">Home</a></h2>
     <h2>Meal list</h2>
+    <div>
+        <h4>От даты:<input type="date"></h4>
+        <h4>До даты:<input type="date"></h4>
+    </div>
+
+    <div>
+        <h4>От времени:<input type="time"></h4>
+        <h4>До времени:<input type="time"></h4>
+    </div>
+    <a href="meals?action=filter">Filter</a>
+
+    <hr>
     <a href="meals?action=create">Add Meal</a>
     <hr>
     <table border="1" cellpadding="8" cellspacing="0">
