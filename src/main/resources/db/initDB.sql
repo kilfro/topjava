@@ -32,7 +32,7 @@ CREATE TABLE public.meals
   id INTEGER DEFAULT nextval('global_seq') PRIMARY KEY,
   description TEXT NOT NULL,
   calories INTEGER NOT NULL,
-  date TIMESTAMP DEFAULT now(),
+  datetime TIMESTAMP DEFAULT now(),
   user_id INTEGER NOT NULL,
   CONSTRAINT meals_user_id_fk FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
