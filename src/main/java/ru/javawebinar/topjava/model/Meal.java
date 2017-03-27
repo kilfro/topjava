@@ -11,10 +11,12 @@ import java.time.LocalTime;
  * GKislin
  * 11.01.2015.
  */
+@SuppressWarnings("JpaQlInspection")
 @NamedQueries({
         @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:user_id"),
         @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m WHERE m.user.id=:user_id ORDER BY m.dateTime DESC "),
-//        @NamedQuery(name = Meal.BY_BETWEEN, query = "SELECT m FROM Meal m WHERE m.user.id=:user_id ")
+        @NamedQuery(name = Meal.GET_BETWEEN, query = "SELECT m FROM Meal m WHERE m.user.id=:user_id AND m.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.UPDATE, query = "UPDATE Meal m SET m.dateTime = :datetime, m.calories= :calories, m.description=:description where m.id=:id and m.user.id=:userId")
 })
 @Entity
 @Table(name = "meals", uniqueConstraints = {
@@ -24,7 +26,8 @@ public class Meal extends BaseEntity {
 
     public static final String DELETE = "Meal.delete";
     public static final String ALL_SORTED = "Meal.getAll";
-    public static final String BY_BETWEEN = "Meal.getBetween";
+    public static final String GET_BETWEEN = "Meal.getBetween";
+    public static final String UPDATE = "Meal.update";
 
     @Column(name = "date_time")
     @NotEmpty
