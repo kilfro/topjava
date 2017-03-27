@@ -1,8 +1,8 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,6 +15,9 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
@@ -30,6 +33,30 @@ public class MealServiceTest {
 
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
+
+    @Rule
+    public final TestName name = new TestName();
+
+    private static Map<String, Long> testTime = new ConcurrentHashMap<>();
+
+    private static Date start;
+
+    @Before
+    public void startTime() {
+        start = new Date();
+    }
+
+    @After
+    public void endTime() {
+        testTime.put(name.getMethodName(), new Date().getTime() - start.getTime());
+    }
+
+    @AfterClass
+    public static void printLogTime() {
+        for (Map.Entry<String, Long> m : testTime.entrySet()) {
+            System.out.println(String.format("%20s: - %d ms", m.getKey(), m.getValue()));
+        }
+    }
 
     @Autowired
     private MealService service;
