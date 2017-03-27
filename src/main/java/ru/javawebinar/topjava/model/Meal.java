@@ -1,7 +1,8 @@
 package ru.javawebinar.topjava.model;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,11 +11,31 @@ import java.time.LocalTime;
  * GKislin
  * 11.01.2015.
  */
+@NamedQueries({
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:user_id"),
+        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m WHERE m.user.id=:user_id ORDER BY m.dateTime DESC "),
+//        @NamedQuery(name = Meal.BY_BETWEEN, query = "SELECT m FROM Meal m WHERE m.user.id=:user_id ")
+})
+@Entity
+@Table(name = "meals", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "meals_unique_user_datetime_idx")
+})
 public class Meal extends BaseEntity {
+
+    public static final String DELETE = "Meal.delete";
+    public static final String ALL_SORTED = "Meal.getAll";
+    public static final String BY_BETWEEN = "Meal.getBetween";
+
+    @Column(name = "date_time")
+    @NotEmpty
     private LocalDateTime dateTime;
 
+    @Column(name = "description", nullable = false)
+    @NotEmpty
     private String description;
 
+    @Column(name = "calories", nullable = false)
+    @NotEmpty
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
