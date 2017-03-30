@@ -10,12 +10,10 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -34,10 +32,13 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles({Profiles.ACTIVE_DB, Profiles.JPA})
-public class MealServiceTest {
-    private static final Logger LOG = LoggerFactory.getLogger(MealServiceTest.class);
+public abstract class MealServiceTest {
+    private static Logger log;
     private static StringBuilder results = new StringBuilder();
+
+    public static void setLog(Logger log) {
+        MealServiceTest.log = log;
+    }
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -49,17 +50,18 @@ public class MealServiceTest {
         protected void finished(long nanos, Description description) {
             String result = String.format("%-25s %7d", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
             results.append(result).append('\n');
-            LOG.info(result + " ms\n");
+            log.info(result + " ms\n");
         }
     };
 
     @AfterClass
     public static void printResult() {
-        LOG.info("\n---------------------------------" +
+        log.info("\n---------------------------------" +
                 "\nTest                 Duration, ms" +
                 "\n---------------------------------\n" +
                 results +
                 "---------------------------------\n");
+        results = new StringBuilder();
     }
 
     @Autowired
