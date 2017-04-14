@@ -13,7 +13,8 @@
 <div class="jumbotron">
     <div class="container">
         <div class="shadow">
-            <h3><spring:message code="users.title"/></h3>
+            <%--<h3><spring:message code="users.title"/></h3>--%>
+            <h3>Список пользователей</h3>
 
             <div class="view-box">
                 <a class="btn btn-sm btn-info" onclick="add()">
@@ -23,11 +24,16 @@
                 <table class="table table-striped display" id="datatable">
                     <thead>
                     <tr>
-                        <th><spring:message code="users.name"/></th>
-                        <th><spring:message code="users.email"/></th>
-                        <th><spring:message code="users.roles"/></th>
-                        <th><spring:message code="users.active"/></th>
-                        <th><spring:message code="users.registered"/></th>
+                        <%--<th><spring:message code="users.name"/></th>--%>
+                        <th>Имя</th>
+                        <%--<th><spring:message code="users.email"/></th>--%>
+                        <th>Почта</th>
+                        <%--<th><spring:message code="users.roles"/></th>--%>
+                        <th>Роли</th>
+                        <%--<th><spring:message code="users.active"/></th>--%>
+                        <th>Активный</th>
+                        <%--<th><spring:message code="users.registered"/></th>--%>
+                        <th>Зарегистрирован</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -63,33 +69,40 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title"><spring:message code="users.add"/></h2>
+                <%--<h2 class="modal-title"><spring:message code="users.add"/></h2>--%>
+                <h2 class="modal-title">Добавить пользователя</h2>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" method="post" id="detailsForm">
                     <input type="text" hidden="hidden" id="id" name="id">
 
                     <div class="form-group">
-                        <label for="name" class="control-label col-xs-3"><spring:message code="users.name"/></label>
+                        <%--<label for="name" class="control-label col-xs-3"><spring:message code="users.name"/></label>--%>
+                        <label for="name" class="control-label col-xs-3">Имя</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="<spring:message code="users.name"/>">
+                            <%--<input type="text" class="form-control" id="name" name="name" placeholder="<spring:message code="users.name"/>">--%>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Имя">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="email" class="control-label col-xs-3"><spring:message code="users.email"/></label>
+                        <%--<label for="email" class="control-label col-xs-3"><spring:message code="users.email"/></label>--%>
+                        <label for="email" class="control-label col-xs-3">Почта</label>
 
                         <div class="col-xs-9">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="<spring:message code="users.email"/>">
+                            <%--<input type="email" class="form-control" id="email" name="email" placeholder="<spring:message code="users.email"/>">--%>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Почта">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="control-label col-xs-3"><spring:message code="users.password"/></label>
+                        <%--<label for="password" class="control-label col-xs-3"><spring:message code="users.password"/></label>--%>
+                        <label for="password" class="control-label col-xs-3">Пароль</label>
 
                         <div class="col-xs-9">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="<spring:message code="users.password"/>">
+                            <%--<input type="password" class="form-control" id="password" name="password" placeholder="<spring:message code="users.password"/>">--%>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Пароль">
                         </div>
                     </div>
 

@@ -11,15 +11,19 @@
         <p/>
 
         <form method="post" action="users">
-            <spring:message code="app.login"/>: <select name="userId">
+            <%--<spring:message code="app.login"/>: <select name="userId">--%>
+                Зайти как: <select name="userId">
             <option value="100000" selected>User</option>
             <option value="100001">Admin</option>
         </select>
-            <button type="submit"><spring:message code="common.select"/></button>
+            <%--<button type="submit"><spring:message code="common.select"/></button>--%>
+            <button type="submit">Выбрать</button>
         </form>
         <ul>
-            <li><a href="users"><spring:message code="users.title"/></a></li>
-            <li><a href="meals"><spring:message code="meals.title"/></a></li>
+            <%--<li><a href="users"><spring:message code="users.title"/></a></li>--%>
+            <li><a href="users">Список пользователей</a></li>
+            <%--<li><a href="meals"><spring:message code="meals.title"/></a></li>--%>
+            <li><a href="meals">Список еды</a></li>
         </ul>
     </div>
 </div>
